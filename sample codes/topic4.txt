@@ -1,0 +1,103 @@
+# Setup Remote PC
+
+## 2 Install ROS 1 on Remote PC
+
+$ sudo apt-get update
+$ sudo apt-get upgrade
+$ wget https://raw.githubusercontent.com/ROBOTIS-GIT/robotis_tools/master/install_ros_kinetic.sh && chmod 755 ./install_ros_kinetic.sh && bash ./install_ros_kinetic.sh
+
+$ sudo apt-get install ros-kinetic-joy ros-kinetic-teleop-twist-joy ros-kinetic-teleop-twist-keyboard ros-kinetic-laser-proc ros-kinetic-rgbd-launch ros-kinetic-depthimage-to-laserscan ros-kinetic-rosserial-arduino ros-kinetic-rosserial-python ros-kinetic-rosserial-server ros-kinetic-rosserial-client ros-kinetic-rosserial-msgs ros-kinetic-amcl ros-kinetic-map-server ros-kinetic-move-base ros-kinetic-urdf ros-kinetic-xacro ros-kinetic-compressed-image-transport ros-kinetic-rqt-image-view ros-kinetic-gmapping ros-kinetic-navigation ros-kinetic-interactive-markers
+
+## Install Dependent ROS 1 Packages
+
+$ cd ~/catkin_ws/src/
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+$ git clone -b kinetic-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
+$ cd ~/catkin_ws && catkin_make
+
+## Network Configuration
+
+$ ifconfig
+$ nano ~/.bashrc
+$ source ~/.bashrc
+
+# Setup SBC
+
+## 1) Install Ubuntu MATE on TurtleBot PC
+
+$ sudo apt-get install gnome-disk-utility
+
+$ sudo apt-get install gddrescue xz-utils
+$ unxz ubuntu-mate-16.04.2-desktop-armhf-raspberry-pi.img.xz
+$ sudo ddrescue -D --force ubuntu-mate-16.04.2-desktop-armhf-raspberry-pi.img /dev/sdx
+
+## 2) Install ROS on TurtleBot PC
+
+$ sudo apt-get update
+$ sudo apt-get upgrade
+$ wget https://raw.githubusercontent.com/ROBOTIS-GIT/robotis_tools/master/install_ros_kinetic_rp3.sh && chmod 755 ./install_ros_kinetic_rp3.sh && bash ./install_ros_kinetic_rp3.sh
+
+## 3) Install Dependent Packages on TurtleBot PC
+
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/ROBOTIS-GIT/hls_lfcd_lds_driver.git
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
+
+$ cd ~/catkin_ws/src/turtlebot3
+$ rm -r turtlebot3_description/ turtlebot3_teleop/ turtlebot3_navigation/ turtlebot3_slam/ turtlebot3_example/
+
+$ sudo apt-get install ros-kinetic-rosserial-python ros-kinetic-tf
+
+$ source /opt/ros/kinetic/setup.bash
+$ cd ~/catkin_ws && catkin_make -j1
+
+## 4) USB Settings
+$ rosrun turtlebot3_bringup create_udev_rules
+
+
+# Setup OpenCR
+
+## (Recommended) Shell Script
+
+$ sudo dpkg --add-architecture armhf
+$ sudo apt-get update
+$ sudo apt-get install libc6:armhf
+
+$ export OPENCR_PORT=/dev/ttyACM0
+$ export OPENCR_MODEL=burger
+$ rm -rf ./opencr_update.tar.bz2
+$ wget https://github.com/ROBOTIS-GIT/OpenCR-Binaries/raw/master/turtlebot3/ROS1/latest/opencr_update.tar.bz2 && tar -xvf opencr_update.tar.bz2 && cd ./opencr_update && ./update.sh $OPENCR_PORT $OPENCR_MODEL.opencr && cd ..
+
+# Bring Up Turtlebot
+
+[terminal 1] $ roscore
+
+[terminal 2]
+$ ssh pi@[RASPBERRY PI_IP]
+$ roslaunch turtlebot3_bringup turtlebot3_robot.launch
+
+[terminal 3] $ rosrun rviz rviz -d `rospack find turtlebot3_description`/rviz/model.rviz
+
+# Topic Modeling
+
+[terminal 4] $ rqt
+
+
+# Teleoperation
+
+[terminal 5] roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+
+# Object Detection
+
+$ roslaunch turtlebot3_example turtlebot3_obstacle.launch
+
+# SLAM
+$ roslaunch turtlebot3_slam turtlebot3_slam.launch slam_methods:=gmapping
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+$ rosrun map_server map_saver -f ~/map
+
+# Navigation
+
+$ roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/map.yaml
+$ rviz -d `rospack find turtlebot3_navigation`/rviz/turtlebot3_navigation.rviz

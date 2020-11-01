@@ -1,0 +1,70 @@
+# Activity: LIDAR on Raspberry Pi 4
+
+$ mkdir -p ~/catkin_ws/src
+$ sudo git clone  https://github.com/Slamtec/rplidar_ros.git
+$ cd ~/catkin_ws/
+$ catkin_make
+$ source ~/catkin_ws/devel/setup.bash
+
+$ roslaunch rplidar_ros rplidar.launch
+
+# Activity: RPLidar in Headless Mode
+
+$ nano ~/.bashrc
+$ export ROS_MASTER_URI=http://[your-desktop-machine-ip]:11311
+$ source ~/.bashrc
+$ roscore
+
+$ ~/.bashrc
+$ export ROS_MASTER_URI=http://[your-desktop-machine-ip]:11311
+$ export ROS_IP=[your-desktop-machine-ip]
+$ source ~/.bashrc
+$ roslaunch rplidar_ros rplidar.launch
+
+
+# Activity: Turtlebot3 Burger
+
+$ cd ~/catkin_ws/src/
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+$ cd ~/catkin_ws && catkin_make
+
+$ export TURTLEBOT3_MODEL=burger
+$ roslaunch turtlebot3_fake turtlebot3_fake.launch
+
+$ export TURTLEBOT3_MODEL=burger
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+
+
+# Activity: Gazebo - Empty World
+
+$ roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+
+
+# Activity: Gazebo - World
+
+$ roslaunch turtlebot3_gazebo turtlebot3_world.launch
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+
+# Activity: Gazebo - House
+
+$ roslaunch turtlebot3_gazebo turtlebot3_house.launch
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+
+# Activity: RViz
+
+$ roslaunch turtlebot3_gazebo turtlebot3_gazebo_rviz.launch
+
+# Activity: Virtual SLAM
+
+roslaunch turtlebot3_gazebo turtlebot3_world.launch
+roslaunch turtlebot3_slam turtlebot3_slam.launch slam_methods:=gmapping
+roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+rosrun map_server map_saver -f ~/map
+
+
+# Activity: Virtual Navigation
+
+roslaunch turtlebot3_gazebo turtlebot3_world.launch
+roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/map.yaml
+

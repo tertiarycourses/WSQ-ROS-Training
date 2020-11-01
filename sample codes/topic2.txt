@@ -1,0 +1,94 @@
+$ Create a Workspace
+
+$ mkdir -p catkin_ws/src
+$ cd catkin_ws
+$ catkin_make
+
+$ source devel/setup.bash 
+$. devel/setup.bash
+
+# Create a ROS Package
+
+$ cd ~/catkin_ws/src
+$ catkin_create_pkg demo1 std_msgs rospy roscpp
+$ cd ~/catkin_ws
+$ catkin_make
+$ .  ~/catkin_ws/devel/setup.bash
+
+
+# Install a ROS Package
+
+cd ~/catkin_ws/src
+git clone https://github.com/jmeyer1292/fake_ar_publisher.git
+cd ~/catkin_ws
+catkin_make
+source ~/catkin_ws/devel/setup.bash
+
+# Activity: Install ROS Package
+
+cd ~/catkin_ws/src
+git clone
+https://github.com/tertiarycourses/beginner_tutorials
+cd ~/catkin_ws
+catkin_make
+source devel/setup.bash
+
+# ROS Nodes
+
+rosrun turtlesim turtlesim_node
+rosnode list
+rosnode info /turtlesim
+
+(terminal 1) roscore
+(terminal 2) rosrun turtlesim turtlesim_node
+(terminal 3) rosrun turtlesim turtle_teleop_key. Use the arrow keys to move the turtle
+(terminal 4) rosnode list
+
+roslaunch beginner_tutorials turtlesim.launch
+
+
+# ROS Topics
+
+$ rosrun turtlesim turtlesim_node
+$ rosrun turtlesim turtle_teleop_key
+$ rosnode list
+$ rostopic list
+$ rostopic list -v
+
+$ rostopic info /turtle1/cmd_vel
+$ rostopic type /turtle1/cmd_vel
+
+$ rosrun rqt_graph rqt_graph
+
+# ROS Messages
+
+$ rosmsg show geometry_msgs/Twist
+$ rostopic pub -1 /turtle1/cmd_vel geometry_msgs/Twist -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'
+$ rostopic echo /turtle1/pose
+
+# ROS Services
+
+$ rosservice list
+$ rosservice type /service_name
+$ rosservice call /service_name args
+
+$ rosrun turtlesim turtlesim_node
+$ rosservice list
+$ rosservice call /spawn 2 2 180 t2
+$ rosservice call /spawn 8 8 0 t3
+
+$ ROS Bags
+
+(terminal 1) roscore
+(terminal 2) rosrun turtlesim turtlesim_node
+(terminal 3) rosrun turtlesim turtle_teleop_key
+(terminal 4) rostopic list -v
+(terminal 4) running rosbag record 
+mkdir ~/bagfiles
+cd ~/bagfiles
+rosbag record -a
+(terminal 3) move the turtle with arrow keys
+(terminal 4) exit with a Ctrl-C.
+(terminal 4) rosbag info <your bagfile>
+(terminal 4) rosbag play <your bagfile>
+
