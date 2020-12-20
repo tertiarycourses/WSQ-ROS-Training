@@ -1,5 +1,5 @@
 # NICF - System integration with Robot Operating System (ROS)
-## by [Tertiary Infotech Pte. Ltd](https://www.tertiarycourses.com.sg/)
+## by [Tertiary Courses](https://www.tertiarycourses.com.sg/)
 
 These are the exercise files used for [NICF - System integration with Robot Operating System (ROS)](https://www.tertiarycourses.com.sg/wsq-ros-course.html) course. 
 
