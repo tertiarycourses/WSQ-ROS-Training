@@ -1,13 +1,15 @@
-$ Create a Workspace
+# Topic 2
+
+## Create a Workspace
 
 $ mkdir -p catkin_ws/src
 $ cd catkin_ws
 $ catkin_make
 
 $ source devel/setup.bash 
-$. devel/setup.bash
+$ . devel/setup.bash
 
-# Create a ROS Package
+## Create a ROS Package
 
 $ cd ~/catkin_ws/src
 $ catkin_create_pkg demo1 std_msgs rospy roscpp
@@ -15,67 +17,99 @@ $ cd ~/catkin_ws
 $ catkin_make
 $ .  ~/catkin_ws/devel/setup.bash
 
+## Install a ROS Package
 
-# Install a ROS Package
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/jmeyer1292/fake_ar_publisher.git
+$ cd ~/catkin_ws
+$ catkin_make
+$ source ~/catkin_ws/devel/setup.bash
 
-cd ~/catkin_ws/src
-git clone https://github.com/jmeyer1292/fake_ar_publisher.git
-cd ~/catkin_ws
-catkin_make
-source ~/catkin_ws/devel/setup.bash
+## Activity: Install ROS Package
 
-# Activity: Install ROS Package
+$ cd ~/catkin_ws/src
+$ git clone
+$ https://github.com/tertiarycourses/beginner_tutorials
+$ cd ~/catkin_ws
+$ catkin_make
+$ source devel/setup.bash
 
-cd ~/catkin_ws/src
-git clone
-https://github.com/tertiarycourses/beginner_tutorials
-cd ~/catkin_ws
-catkin_make
-source devel/setup.bash
-
-# ROS Nodes
-
-rosrun turtlesim turtlesim_node
-rosnode list
-rosnode info /turtlesim
-
-(terminal 1) roscore
-(terminal 2) rosrun turtlesim turtlesim_node
-(terminal 3) rosrun turtlesim turtle_teleop_key. Use the arrow keys to move the turtle
-(terminal 4) rosnode list
-
-roslaunch beginner_tutorials turtlesim.launch
-
-
-# ROS Topics
+## ROS Nodes
 
 $ rosrun turtlesim turtlesim_node
-$ rosrun turtlesim turtle_teleop_key
 $ rosnode list
-$ rostopic list
-$ rostopic list -v
+$ rosnode info /turtlesim
 
+(terminal 1) $ roscore
+(terminal 2) $ rosrun turtlesim turtlesim_node
+(terminal 3) $ rosrun turtlesim turtle_teleop_key. 
+(terminal 4) $ rosnode list
+
+## ROS launch
+
+(terminal 1)
+$ cd ~/catkin_ws/src/
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+$ cd ~/catkin_ws && catkin_make
+$ . devel/setup.bash
+
+(terminal 2) 
+$ roscore
+
+(terminal 3)
+$ export TURTLEBOT3_MODEL=burger
+$ roslaunch turtlebot3_fake turtlebot3_fake.launch
+
+(terminal 4)
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+
+(terminal 5)
+$ rosnode list
+
+## ROS Topics
+
+(terminal 1) $ roscore
+(terminal 2) $ rosrun turtlesim turtlesim_node
+(terminal 3) $ rosrun turtlesim turtle_teleop_key Use the arrow keys to move the turtle
+(terminal 4) 
+$ rostopic list
 $ rostopic info /turtle1/cmd_vel
-$ rostopic type /turtle1/cmd_vel
+$ rostopic echo /turtle1/cmd_vel
+
+## RQT
 
 $ rosrun rqt_graph rqt_graph
+$ rqt_graph
 
-# ROS Messages
+## ROS Messages
 
 $ rosmsg show geometry_msgs/Twist
 $ rostopic pub -1 /turtle1/cmd_vel geometry_msgs/Twist -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'
-$ rostopic echo /turtle1/pose
 
-# ROS Services
+## ROS Services
 
 $ rosservice list
-$ rosservice type /service_name
-$ rosservice call /service_name args
 
-$ rosrun turtlesim turtlesim_node
+### Activity: ROS Services
+(terminal 1) $ roscore
+(terminal 2) $ rosrun turtlesim turtlesim_node
+(terminal 3) 
 $ rosservice list
 $ rosservice call /spawn 2 2 180 t2
 $ rosservice call /spawn 8 8 0 t3
+
+## ROS Parameters
+
+(terminal 1) $ roscore
+(terminal 2) $ rosrun turtlesim turtlesim_node
+(terminal 3) 
+$ rosparam list
+$ rosparam get background_g
+$ rosparam set /background_r 150
+$ rosservice call /clear
+
+$ rosparam set /turtlesim/background_r 150
+$ rosservice call /clear
 
 $ ROS Bags
 

@@ -1,70 +1,72 @@
-# Activity: LIDAR on Raspberry Pi 4
 
-$ mkdir -p ~/catkin_ws/src
-$ sudo git clone  https://github.com/Slamtec/rplidar_ros.git
-$ cd ~/catkin_ws/
-$ catkin_make
-$ source ~/catkin_ws/devel/setup.bash
+# Topic 3
 
-$ roslaunch rplidar_ros rplidar.launch
+## Acitivity: Install Turtlebot3 Packages
 
-# Activity: RPLidar in Headless Mode
-
-$ nano ~/.bashrc
-$ export ROS_MASTER_URI=http://[your-desktop-machine-ip]:11311
-$ source ~/.bashrc
-$ roscore
-
-$ ~/.bashrc
-$ export ROS_MASTER_URI=http://[your-desktop-machine-ip]:11311
-$ export ROS_IP=[your-desktop-machine-ip]
-$ source ~/.bashrc
-$ roslaunch rplidar_ros rplidar.launch
-
-
-# Activity: Turtlebot3 Burger
+$ sudo apt-get install ros-kinetic-joy ros-kinetic-teleop-twist-joy ros-kinetic-teleop-twist-keyboard ros-kinetic-laser-proc ros-kinetic-rgbd-launch ros-kinetic-depthimage-to-laserscan ros-kinetic-rosserial-arduino ros-kinetic-rosserial-python ros-kinetic-rosserial-server ros-kinetic-rosserial-client ros-kinetic-rosserial-msgs ros-kinetic-amcl ros-kinetic-map-server ros-kinetic-move-base ros-kinetic-urdf ros-kinetic-xacro ros-kinetic-compressed-image-transport ros-kinetic-rqt-image-view ros-kinetic-gmapping ros-kinetic-navigation ros-kinetic-interactive-markers
 
 $ cd ~/catkin_ws/src/
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
 $ git clone https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 $ cd ~/catkin_ws && catkin_make
+$ source devel/setup.bash
 
+## Activity: Burger Simulation 
+
+(terminal ) 
+$ roscore
+
+(terminal 2)
+$ nano ~/.bashrc
 $ export TURTLEBOT3_MODEL=burger
+$ source ~/.bashrc
+
 $ roslaunch turtlebot3_fake turtlebot3_fake.launch
 
-$ export TURTLEBOT3_MODEL=burger
+(terminal 3)
 $ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
 
+## You can automate by edit the .bashrc file
+$ nano  ~/.bashrc and add the following lines to .bashrc file
+source /opt/ros/kinetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+export TURTLEBOT3_MODEL=burger
+$ source ~/.bashrc
 
-# Activity: Gazebo - Empty World
+## Activity: Gazebo - Empty World
 
 $ roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch
 $ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
 
-
-# Activity: Gazebo - World
+## Activity: Gazebo - World
 
 $ roslaunch turtlebot3_gazebo turtlebot3_world.launch
 $ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
 
-# Activity: Gazebo - House
+## Activity: Gazebo - House
 
 $ roslaunch turtlebot3_gazebo turtlebot3_house.launch
 $ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
 
-# Activity: RViz
+## Activity: LiDAR Scan Data in RViz
 
+$ roslaunch turtlebot3_gazebo turtlebot3_world.launch
 $ roslaunch turtlebot3_gazebo turtlebot3_gazebo_rviz.launch
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
 
-# Activity: Virtual SLAM
+## Activity: Virtual SLAM with Gmapping
 
-roslaunch turtlebot3_gazebo turtlebot3_world.launch
-roslaunch turtlebot3_slam turtlebot3_slam.launch slam_methods:=gmapping
-roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
-rosrun map_server map_saver -f ~/map
+(terminal 1) roslaunch turtlebot3_gazebo turtlebot3_world.launch
+(terminal 2) roslaunch turtlebot3_slam turtlebot3_slam.launch slam_methods:=gmapping
+(terminal 3) roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+(terminal 4) rosrun map_server map_saver -f ~/my_map
 
+## Activity: Virtual SLAM with Frontier Exploration
 
-# Activity: Virtual Navigation
+## Install Frontier Exploration package
+$ sudo apt get install ros-kinetic-frontier-exploration ros-kinetic-navigation-stage
 
-roslaunch turtlebot3_gazebo turtlebot3_world.launch
-roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/map.yaml
-
+(terminal 1) roslaunch turtlebot3_gazebo turtlebot3_world.launch
+(terminal 2) roslaunch turtlebot3_slam turtlebot3_slam.launch slam_methods:=frontier_exploration
+(terminal 3) rosrun map_server map_saver -f ~/my_map

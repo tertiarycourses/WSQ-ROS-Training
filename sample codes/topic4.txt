@@ -1,6 +1,8 @@
-# Setup Remote PC
+# Topic 4
 
-## 2 Install ROS 1 on Remote PC
+## Setup Remote PC
+
+### Install ROS 1 on Remote PC
 
 $ sudo apt-get update
 $ sudo apt-get upgrade
@@ -8,20 +10,20 @@ $ wget https://raw.githubusercontent.com/ROBOTIS-GIT/robotis_tools/master/instal
 
 $ sudo apt-get install ros-kinetic-joy ros-kinetic-teleop-twist-joy ros-kinetic-teleop-twist-keyboard ros-kinetic-laser-proc ros-kinetic-rgbd-launch ros-kinetic-depthimage-to-laserscan ros-kinetic-rosserial-arduino ros-kinetic-rosserial-python ros-kinetic-rosserial-server ros-kinetic-rosserial-client ros-kinetic-rosserial-msgs ros-kinetic-amcl ros-kinetic-map-server ros-kinetic-move-base ros-kinetic-urdf ros-kinetic-xacro ros-kinetic-compressed-image-transport ros-kinetic-rqt-image-view ros-kinetic-gmapping ros-kinetic-navigation ros-kinetic-interactive-markers
 
-## Install Dependent ROS 1 Packages
+### Install Dependent ROS Packages
 
 $ cd ~/catkin_ws/src/
 $ git clone https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
 $ git clone -b kinetic-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
 $ cd ~/catkin_ws && catkin_make
 
-## Network Configuration
+### Network Configuration
 
 $ ifconfig
 $ nano ~/.bashrc
 $ source ~/.bashrc
 
-# Setup SBC
+## Setup SBC
 
 ## 1) Install Ubuntu MATE on TurtleBot PC
 
@@ -55,7 +57,6 @@ $ cd ~/catkin_ws && catkin_make -j1
 ## 4) USB Settings
 $ rosrun turtlebot3_bringup create_udev_rules
 
-
 # Setup OpenCR
 
 ## (Recommended) Shell Script
@@ -83,7 +84,6 @@ $ roslaunch turtlebot3_bringup turtlebot3_robot.launch
 
 [terminal 4] $ rqt
 
-
 # Teleoperation
 
 [terminal 5] roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
@@ -101,3 +101,14 @@ $ rosrun map_server map_saver -f ~/map
 
 $ roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/map.yaml
 $ rviz -d `rospack find turtlebot3_navigation`/rviz/turtlebot3_navigation.rviz
+
+# URDF and TF   
+$ sudo apt-get install ros-kinetic-turtle-tf2 ros-kinetic-tf2-tools ros-kinetic-tf
+(terminal 1) $ roslaunch turtle_tf2 turtle_tf2_demo.launch
+(terminal 2) $ rosrun turtlesim turtlesim_teleop_key
+$ rviz
+
+$ roslaunch <your package name> display.launch model:='visual.urdf'
+
+$ xacro --inorder robot1.xacro  > robot1.urdf
+$ roslaunch <your package name> display.launch model:='robot1.urdf'
